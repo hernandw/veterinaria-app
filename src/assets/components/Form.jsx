@@ -1,31 +1,42 @@
 import React, { useState } from "react";
 import { Error } from "./Error";
+import { nanoid } from "nanoid";
 
-export const Form = ({ patient, setPatient }) => {
+export const Form = ({ patients, setPatients, patient }) => {
   const [name, setName] = useState("");
   const [owner, setOwner] = useState("");
   const [email, setEmail] = useState("");
   const [alta, setAlta] = useState("");
   const [symptom, setSymptom] = useState("");
   const [error, setError] = useState(false);
+  console.log(patient);
+  const id = nanoid(10);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if ([name, owner, email, alta, symptom].includes("")) {
       setError(true);
+      
       return;
     }
     {
       setError(false);
-      const object = {
+      console.log(patient)
+      const objectPacient = {
         name,
         owner,
         email,
         alta,
         symptom,
+        id,
       };
-      setPatient([...patient, object]);
-
+      setPatients([...patients, objectPacient]);
+      setName("");
+      setOwner("");
+      setEmail("");
+      setAlta("");
+      setSymptom("");
+      
     }
   };
 
@@ -40,7 +51,7 @@ export const Form = ({ patient, setPatient }) => {
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded-lg py-10 px-5"
       >
-        {error && <Error message='Todos los campos son obligatorios' />}
+        {error && <Error message="Todos los campos son obligatorios" />}
         <div className="mt-5">
           <label
             htmlFor="name"
