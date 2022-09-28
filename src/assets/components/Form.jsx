@@ -2,14 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Error } from "./Error";
 import { nanoid } from "nanoid";
 
-export const Form = ({ patients, setPatients, patient }) => {
+export const Form = ({
+  patients,
+  setPatients,
+  patient,
+  modoEdicion,
+  setModoEdicion,
+}) => {
   const [name, setName] = useState("");
   const [owner, setOwner] = useState("");
   const [email, setEmail] = useState("");
   const [alta, setAlta] = useState("");
   const [symptom, setSymptom] = useState("");
   const [error, setError] = useState(false);
-  const [edit, setEdit] = useState(false)
 
   const id = nanoid(10);
 
@@ -23,7 +28,7 @@ export const Form = ({ patients, setPatients, patient }) => {
     }
   }, [patient]);
 
-  const handleSubmit = (e) => {
+  const onSubmitAdd = (e) => {
     e.preventDefault();
     if ([name, owner, email, alta, symptom].includes("")) {
       setError(true);
@@ -39,9 +44,18 @@ export const Form = ({ patients, setPatients, patient }) => {
         email,
         alta,
         symptom,
-        id,
       };
-      setPatients([...patients, objectPacient]);
+      if (patient.id) {
+        objectPacient.id = patient.id;
+        const patientUpdate = patients.map((patientUp) =>
+          patientUp.id === patient.id ? objectPacient : patientUp
+        );
+        setPatients(patientUpdate);
+        setModoEdicion(false);
+      } else {
+        objectPacient.id = id;
+        setPatients([...patients, objectPacient]);
+      }
       setName("");
       setOwner("");
       setEmail("");
@@ -49,10 +63,6 @@ export const Form = ({ patients, setPatients, patient }) => {
       setSymptom("");
     }
   };
-
-  const editar = (patient)=>{
-    console.log(patient)
-  }
 
   return (
     <div className="md:w-1/2 lg:w-2/5 mb-10 mx-5">
@@ -62,7 +72,7 @@ export const Form = ({ patients, setPatients, patient }) => {
         <span className="text-indigo-600 font-bold">Administralos</span>
       </p>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={onSubmitAdd}
         className="bg-white shadow-md rounded-lg py-10 px-5"
       >
         {error && <Error message="Todos los campos son obligatorios" />}
@@ -149,8 +159,7 @@ export const Form = ({ patients, setPatients, patient }) => {
         <input
           type="submit"
           className="w-full text-white p-3 bg-indigo-600 uppercase font-bold hover:bg-indigo-700 rounded-lg cursor-pointer transition-colors"
-          value={patient.id ? "Editar Paciente" : "Agregar Paciente"}
-          
+          value={modoEdicion ? "Editar Paciente" : "Agregar Paciente"}
         />
       </form>
     </div>

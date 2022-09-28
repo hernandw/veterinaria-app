@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { Patient } from "./Patient";
 
-export const PatientList = ({ patients, setPatient, setPatients }) => {
-  useEffect(() => {
-    
-  }, [patients]);
+export const PatientList = ({
+  patients,
+  setPatient,
+  setPatients,
+  setModoEdicion,
+}) => {
+  useEffect(() => {}, [patients]);
   return (
     <>
       <div className="md:w-1/2 lg:w-3/5 mb-10 mx-5">
@@ -24,6 +27,7 @@ export const PatientList = ({ patients, setPatient, setPatients }) => {
                 patient={patient}
                 setPatient={setPatient}
                 setPatients={setPatients}
+                setModoEdicion={setModoEdicion}
               />
             ))}
           </>
