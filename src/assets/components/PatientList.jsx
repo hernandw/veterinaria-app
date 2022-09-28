@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Patient } from "./Patient";
 
-export const PatientList = ({ patients, setPatient }) => {
+export const PatientList = ({ patients, setPatient, setPatients }) => {
+  useEffect(() => {
+    
+  }, [patients]);
   return (
     <>
       <div className="md:w-1/2 lg:w-3/5 mb-10 mx-5">
@@ -17,8 +20,10 @@ export const PatientList = ({ patients, setPatient }) => {
             {patients.map((patient) => (
               <Patient
                 key={patient.id}
+                patients={patients}
                 patient={patient}
                 setPatient={setPatient}
+                setPatients={setPatients}
               />
             ))}
           </>

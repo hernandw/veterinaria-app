@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Error } from "./Error";
 import { nanoid } from "nanoid";
 
@@ -9,19 +9,30 @@ export const Form = ({ patients, setPatients, patient }) => {
   const [alta, setAlta] = useState("");
   const [symptom, setSymptom] = useState("");
   const [error, setError] = useState(false);
-  console.log(patient);
+  const [edit, setEdit] = useState(false)
+
   const id = nanoid(10);
+
+  useEffect(() => {
+    if (Object.keys(patient).length > 0) {
+      setName(patient.name);
+      setOwner(patient.owner);
+      setEmail(patient.email);
+      setAlta(patient.alta);
+      setSymptom(patient.symptom);
+    }
+  }, [patient]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if ([name, owner, email, alta, symptom].includes("")) {
       setError(true);
-      
+
       return;
     }
     {
       setError(false);
-      console.log(patient)
+
       const objectPacient = {
         name,
         owner,
@@ -36,9 +47,12 @@ export const Form = ({ patients, setPatients, patient }) => {
       setEmail("");
       setAlta("");
       setSymptom("");
-      
     }
   };
+
+  const editar = (patient)=>{
+    console.log(patient)
+  }
 
   return (
     <div className="md:w-1/2 lg:w-2/5 mb-10 mx-5">
@@ -135,7 +149,8 @@ export const Form = ({ patients, setPatients, patient }) => {
         <input
           type="submit"
           className="w-full text-white p-3 bg-indigo-600 uppercase font-bold hover:bg-indigo-700 rounded-lg cursor-pointer transition-colors"
-          value="Agregar Paciente"
+          value={patient.id ? "Editar Paciente" : "Agregar Paciente"}
+          
         />
       </form>
     </div>
