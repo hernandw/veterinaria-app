@@ -7,8 +7,11 @@ export const Patient = ({
 }) => {
   const { name, owner, email, date, symptom } = patient;
   const deletePatient = (id) => {
-    const arrafiltrado = patients.filter((item) => item.id !== id);
-    setPatients(arrafiltrado);
+    const resp = confirm("¿Deseas eliminar este paciente?");
+    if (resp) {
+      const arrafiltrado = patients.filter((item) => item.id !== id);
+      setPatients(arrafiltrado);
+    }
   };
 
   const editPatient = (patient) => {

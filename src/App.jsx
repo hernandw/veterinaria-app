@@ -1,11 +1,17 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header, Form, PatientList } from "./assets/components";
 
 function App() {
-  const [patients, setPatients] = useState([]);
+  const [patients, setPatients] = useState(
+    JSON.parse(localStorage.getItem("patients")) ?? []
+  );
   const [patient, setPatient] = useState({});
   const [modoEdicion, setModoEdicion] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("patients", JSON.stringify(patients));
+  }, [patients]);
 
   return (
     <div className="container mx-auto m-20">
@@ -18,6 +24,7 @@ function App() {
           patient={patient}
           modoEdicion={modoEdicion}
           setModoEdicion={setModoEdicion}
+          setPatient={setPatient}
         />
         <PatientList
           patients={patients}

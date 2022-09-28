@@ -8,6 +8,7 @@ export const Form = ({
   patient,
   modoEdicion,
   setModoEdicion,
+  setPatient
 }) => {
   const [name, setName] = useState("");
   const [owner, setOwner] = useState("");
@@ -52,6 +53,7 @@ export const Form = ({
         );
         setPatients(patientUpdate);
         setModoEdicion(false);
+        setPatient({})
       } else {
         objectPacient.id = id;
         setPatients([...patients, objectPacient]);
